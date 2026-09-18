@@ -1,23 +1,21 @@
-# Scraper — Scrapy Cloud
+# Social Prospect Scraper
 
-A small Scrapy project for collecting data from publicly accessible web pages. It extracts page metadata and contact emails that are publicly present in the HTML.
+Scrapy Cloud spider for processing publicly accessible pages on Facebook, Instagram, Twitter/X, or other sites.
 
-## Spider: public_pages
+Spider: `social_prospects`
 
 Arguments:
-- start_url: required
-- keyword: optional
-- max_pages: optional, default 20
+- `start_urls`: comma-separated public URLs to process
+- `platforms`: facebook,instagram,twitter
+- `keywords`: optional keywords separated by `|`; defaults to the built-in Telegram advertising/marketing list
+- `max_pages`: default 100
+
+The spider extracts only emails publicly present in the retrieved page HTML and filters them to the requested public email domains.
+
+Important: this is not a login or anti-bot bypass tool. It does not access private profiles, bypass CAPTCHAs, or defeat access controls. Social platforms may also return limited/JavaScript-rendered content to automated clients.
+
+For broad keyword discovery, use a permitted public search source or provide public profile/page URLs as `start_urls`, then let the spider inspect those pages.
 
 Example:
-scrapy crawl public_pages -a start_url=https://example.com -a keyword=marketing -a max_pages=20 -O results.csv
+`start_urls=https://example.com/public-page&platforms=facebook,instagram,twitter&max_pages=100`
 
-The spider does not log in, bypass CAPTCHAs, access private profiles, or defeat access controls. Only publicly accessible page content is processed.
-
-## Deploy to Scrapy Cloud
-
-pip install shub
-shub login
-shub deploy 878830
-
-Never commit API keys, passwords, cookies, or other secrets.
